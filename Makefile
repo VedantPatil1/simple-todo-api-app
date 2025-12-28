@@ -8,7 +8,7 @@ test: fmt
 	go test ./...
 
 build:
-	go build -o ./bin/todo-api-app cmd/api/main.go
+	go build -o ./bin/todo-app cmd/app/main.go
 
 run: build
-	./bin/todo-api-app
+	./bin/todo-app
