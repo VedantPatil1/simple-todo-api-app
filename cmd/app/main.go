@@ -1,18 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
-	"time"
 
-	"github.com/VedantPatil1/simple-todo-api-app.git/internal/middleware"
+	"github.com/VedantPatil1/simple-todo-api-app.git/internal"
 )
-
-func greet(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World! %s", time.Now())
-}
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
@@ -20,11 +14,7 @@ func main() {
 
 	slog.Info("Starting App")
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", greet)
-
-	logMiddleware := middleware.LogRequest(logger)
-	server := logMiddleware(mux)
+	server := internal.NewServer(logger)
 
 	http.ListenAndServe(":8080", server)
 }
