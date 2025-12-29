@@ -7,7 +7,10 @@ fmt: vet
 test: fmt
 	go test ./...
 
-build:
+templ:
+	templ generate
+
+build: templ
 	go build -o ./bin/todo-app cmd/app/main.go
 
 run: build
