@@ -26,12 +26,8 @@ func TestAddTodos(t *testing.T) {
 		Todos: make(map[int]Todo),
 	}
 
-	id := store.AddTodo("test todo")
+	got := store.AddTodo("test todo")
 
-	if id != 0 {
-		t.Errorf("generated wrong id: got %d want %d", id, 0)
-	}
-	got := store.Todos[0]
 	want := Todo{
 		Id:          0,
 		Title:       "test todo",
@@ -68,5 +64,42 @@ func TestGetById(t *testing.T) {
 		if got != want {
 			t.Errorf("error not returned: got %v want %v", got, want)
 		}
+	})
+}
+
+func TestToggleCompletion(t *testing.T) {
+
+	t.Run("toggle complete task", func(t *testing.T) {
+		store := InMemoryDataStore{
+			Todos: make(map[int]Todo),
+		}
+		store.AddTodo("test todo")
+
+		updated_todo, _ := store.ToggleCompletion(0)
+
+		if !updated_todo.IsCompleted {
+			t.Errorf("invalid completion status: got %v want %t", updated_todo.IsCompleted, true)
+		}
+
+		updated_todo, _ = store.ToggleCompletion(0)
+
+		if updated_todo.IsCompleted {
+			t.Errorf("invalid completion status: got %v want %t", updated_todo.IsCompleted, false)
+		}
+	})
+
+	t.Run("check error if id not found", func(t *testing.T) {
+		store := InMemoryDataStore{
+			Todos: make(map[int]Todo),
+		}
+		store.AddTodo("test todo")
+
+		_, got := store.ToggleCompletion(2)
+		want := ErrTodoNotFound
+
+		if got != want {
+			t.Errorf("error not returned: got %v want %v", got, want)
+		}
+
 	})
 }

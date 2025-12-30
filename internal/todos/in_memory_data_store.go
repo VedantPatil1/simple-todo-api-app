@@ -24,7 +24,7 @@ func (s *InMemoryDataStore) GetTodos() []Todo {
 	return todos
 }
 
-func (s *InMemoryDataStore) AddTodo(title string) int {
+func (s *InMemoryDataStore) AddTodo(title string) Todo {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -39,7 +39,7 @@ func (s *InMemoryDataStore) AddTodo(title string) int {
 
 	s.Todos[id] = todo
 
-	return id
+	return todo
 }
 
 func (s *InMemoryDataStore) GetById(id int) (Todo, error) {
@@ -50,5 +50,25 @@ func (s *InMemoryDataStore) GetById(id int) (Todo, error) {
 	if !ok {
 		return Todo{}, ErrTodoNotFound
 	}
+	return todo, nil
+}
+
+func (s *InMemoryDataStore) ToggleCompletion(id int) (Todo, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	todo, ok := s.Todos[id]
+	if !ok {
+		return Todo{}, ErrTodoNotFound
+	}
+
+	if todo.IsCompleted {
+		todo.IsCompleted = false
+	} else {
+		todo.IsCompleted = true
+	}
+
+	s.Todos[id] = todo
+
 	return todo, nil
 }
