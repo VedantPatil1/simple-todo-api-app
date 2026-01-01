@@ -2,6 +2,7 @@
 package todos
 
 import "github.com/VedantPatil1/simple-todo-api-app.git/internal/ui/layouts"
+import "strconv"
 
 templ IndexView(items []Todo) {
 	@layouts.BaseLayout("Todos Page") {
@@ -14,8 +15,16 @@ templ IndexView(items []Todo) {
 	}
 }
 
+templ TodoList(todos []Todo) {
+    <div data-testid="TodoList" class="todo-items">
+        for _, todo:= range todos {
+            @TodoItem(todo)
+        }
+    </div>
+}
+
 templ TodoItem(todo Todo) {
-	<div class="todo-container">
+	<div data-testid="TodoItem" data-todo-id={ strconv.Itoa(todo.Id) } class="todo-container">
 		<div class="todo-title">{ todo.Title }</div>
 		if todo.IsCompleted {
 			<input type="checkbox" class="todo-checkbox" checked="checked"/>

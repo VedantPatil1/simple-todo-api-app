@@ -2,6 +2,7 @@ package todos
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"testing"
 
@@ -10,50 +11,69 @@ import (
 )
 
 func TestTodoItemComponent(t *testing.T) {
-	t.Run("test title and check box in component", func(t *testing.T) {
+	t.Run("renders incomplete state with correct root attributes", func(t *testing.T) {
 		todo := Todo{
 			Id:          1,
-			Title:       "test todo",
+			Title:       "Test Todo",
 			IsCompleted: false,
 		}
 		doc := renderToDoc(t, TodoItem(todo))
 
-		titleText := doc.Find(".todo-title").Text()
-		if titleText != todo.Title {
-			t.Errorf("error: got %v expected %s", titleText, todo.Title)
+		root := doc.Find("[data-testid='TodoItem']")
+		if root.Length() == 0 {
+			t.Fatal("expected root data-testid='TodoItem' to be present")
 		}
 
-		input := doc.Find("input[type='checkbox']")
-		if input.Length() == 0 {
-			t.Fatal("expected checkbox to be rendered")
+		got, _ := root.Attr("data-todo-id")
+		want := fmt.Sprintf("%d", todo.Id)
+		if got != fmt.Sprintf("%d", todo.Id) {
+			t.Errorf("wrong id attribute: got %v, want %s", got, want)
 		}
-	})
-	t.Run("test checkbox for incomplete", func(t *testing.T) {
-		todo := Todo{
-			Id:          1,
-			Title:       "test todo",
-			IsCompleted: false,
-		}
-		doc := renderToDoc(t, TodoItem(todo))
 
-		input := doc.Find("input[type='checkbox']")
+		if title := root.Find(".todo-title").Text(); title != todo.Title {
+			t.Errorf("expected title '%s', got '%s'", todo.Title, title)
+		}
+
+		input := root.Find("input[type='checkbox']")
 		if _, isChecked := input.Attr("checked"); isChecked {
-			t.Fatal("expected todo to be unchecked for incomplete todo")
+			t.Error("expected checkbox to be unchecked")
 		}
 	})
-	t.Run("test checkbox for completeed", func(t *testing.T) {
-		todo := Todo{
-			Id:          1,
-			Title:       "test todo",
-			IsCompleted: true,
-		}
+
+	t.Run("renders checked state for completed todo", func(t *testing.T) {
+		todo := Todo{Id: 1, IsCompleted: true}
 		doc := renderToDoc(t, TodoItem(todo))
 
 		input := doc.Find("input[type='checkbox']")
 		if _, isChecked := input.Attr("checked"); !isChecked {
-			t.Fatal("expected todo to be checked for incomplete todo")
+			t.Error("expected checkbox to be checked")
 		}
 	})
+}
+
+func TestTodoListComponent(t *testing.T) {
+	todos := []Todo{
+		{Id: 1, Title: "test 1"},
+		{Id: 2, Title: "test 2"},
+	}
+	doc := renderToDoc(t, TodoList(todos))
+
+	comp := doc.Find("[data-testid=TodoList]")
+	if comp.Length() == 0 {
+		t.Error("component id 'TodoList' not found")
+	}
+
+	items := comp.Find("[data-testid=TodoItem]")
+	if nItems := items.Length(); nItems != 2 {
+		t.Errorf("error number of components of id 'TodoItem': got %d want 2", nItems)
+	}
+
+	for _, todo := range todos {
+		got := items.Filter(fmt.Sprintf("[data-todo-id='%d']", todo.Id))
+		if got.Length() != 1 {
+			t.Errorf("error items with todo-id %d: got %d want 1", todo.Id, got.Length())
+		}
+	}
 }
 
 func renderToDoc(t *testing.T, component templ.Component) *goquery.Document {
