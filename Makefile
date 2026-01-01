@@ -17,7 +17,7 @@ run: build
 	./bin/todo-app
 
 live/templ:
-	templ generate --watch --proxy="http://localhost:8080" --open-browser=false -v
+	templ generate --watch --proxy="http://localhost:8080" --open-browser=false -v --proxybind="0.0.0.0" --proxyport="7331"
 
 live/server:
 	air \

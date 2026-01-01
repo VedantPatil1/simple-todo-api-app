@@ -1,9 +1,26 @@
+@import "./theme.css";
+
 body {
-    background-color: grey;
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  line-height: --line-height-base;
+  background-color: var(--color-bg);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.todo-container {
+  width: 80%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid;
+  border-color: var(--color-primary);
+  border-radius: var(--radius-sm);
 }

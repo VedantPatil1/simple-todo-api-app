@@ -1,0 +1,21 @@
+
+package todos
+
+import "github.com/VedantPatil1/simple-todo-api-app.git/internal/ui/layouts"
+
+templ IndexView(items []Todo) {
+	@layouts.BaseLayout("Todos Page") {
+		<div class="container">
+			<div class="todo-items">
+                @TodoItem(Todo{Title: "test-todo"})
+			</div>
+		</div>
+	}
+}
+
+templ TodoItem(todo Todo) {
+	<div class="todo-container">
+		<div class="todo-title">{todo.Title}</div>
+        <input type="checkbox" class="todo-checkbox"/> 
+	</div>
+}

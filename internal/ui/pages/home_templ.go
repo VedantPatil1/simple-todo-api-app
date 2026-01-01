@@ -8,7 +8,7 @@ package pages
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/VedantPatil1/simple-todo-api-app.git/internal/templates/layouts"
+import "github.com/VedantPatil1/simple-todo-api-app.git/internal/ui/layouts"
 
 func HomePage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {

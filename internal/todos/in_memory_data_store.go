@@ -62,13 +62,13 @@ func (s *InMemoryDataStore) ToggleCompletion(id int) (Todo, error) {
 		return Todo{}, ErrTodoNotFound
 	}
 
-	if todo.IsCompleted {
-		todo.IsCompleted = false
-	} else {
-		todo.IsCompleted = true
-	}
+	todo.IsCompleted = !todo.IsCompleted
 
 	s.Todos[id] = todo
 
 	return todo, nil
+}
+
+func NewInMemoryDataStore() *InMemoryDataStore {
+	return &InMemoryDataStore{Todos: make(map[int]Todo)}
 }
