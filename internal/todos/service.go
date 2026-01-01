@@ -22,5 +22,8 @@ func NewTodoService(s TodoStore) *TodoService {
 }
 
 func (s *TodoService) RegisterRoutes(mux *http.ServeMux) {
+	s.store.AddTodo("test todo 1")
+	todo := s.store.AddTodo("test todo 2")
+	s.store.ToggleCompletion(todo.Id)
 	mux.Handle("GET /todos/", templ.Handler(IndexView(s.store.GetTodos())))
 }
