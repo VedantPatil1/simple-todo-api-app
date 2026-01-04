@@ -16,6 +16,15 @@ func main() {
 	slog.Info("Starting App")
 
 	todoStore := todos.NewInMemoryDataStore()
+	logger.Info("Initialized in-memory todo data store")
+
+	// Adding initial data for testing.
+	todo := todoStore.AddTodo("Add test todo for ui testing")
+	todoStore.AddTodo("remove the previous todo")
+	todoStore.ToggleCompletion(todo.Id)
+	logger.Info("Added initial test todos")
+	logger.Info("Initial Todos", "todos", todoStore.GetTodos())
+
 	deps := internal.NewContainer(logger, todoStore)
 	server := internal.NewServer(deps)
 

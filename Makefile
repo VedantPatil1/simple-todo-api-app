@@ -49,6 +49,6 @@ live/sync_assets:
 	--build.include_ext "js,css"
 
 # start all 5 watch processes in parallel.
-live: 
+live: templ
 	# make -j5 live/templ live/server live/tailwind live/esbuild live/sync_assets
 	make -j3 live/templ live/server live/sync_assets

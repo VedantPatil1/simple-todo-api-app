@@ -36,7 +36,7 @@ func NewServer(deps *Container) http.Handler {
 	// fs := http.FileServer(http.FS(StaticFS))
 	// mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	todoService := todos.NewTodoService(deps.TodoStore)
+	todoService := todos.NewTodoService(deps.TodoStore, deps.Logger)
 	todoService.RegisterRoutes(mux)
 
 	loggingMiddleware := middleware.LogRequest(deps.Logger)
