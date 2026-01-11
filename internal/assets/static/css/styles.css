@@ -1,0 +1,72 @@
+
+:root {
+  --color-bg: #EAE0CF;
+  --color-primary: #213448;
+  --color-secondary: #547792;
+  --color-muted: #94B4C1;
+
+  --color-surface: #ffffff;
+
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
+
+  /* -------- Spacing -------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+
+  /* -------- Radius -------- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
+body {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  line-height: --line-height-base;
+  background-color: var(--color-bg);
+}
+
+.todo-items {
+  align-items: center;
+  column-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+  row-gap: 10px;
+  padding: 20px;
+}
+
+.todo-container {
+  align-items: center;
+  border: 0.2em solid;
+  border-color: var(--color-secondary);
+  border-radius: 9000px;
+  box-shadow: 2px 2px 6px 2px rgb(0 0 0 / 0.2);
+  display: flex;
+  height: auto;
+  justify-content: center;
+  object-fit: cover;
+  width: 70%;
+}
+
+.todo-title {
+  align-self: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-left: 1em;
+  margin-right: 0px;
+}
+
+.todo-checkbox {
+  margin-left: 1em;
+  margin-right: 1em;
+}

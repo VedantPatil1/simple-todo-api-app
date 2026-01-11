@@ -1,0 +1,33 @@
+@import "./theme.css"
+
+.todo-items {
+  align-items: center;
+  column-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+  row-gap: 10px;
+  padding: 10px;
+}
+
+.todo-container {
+  align-items: center;
+  border: 0.3em solid;
+  border-color: var(--color-muted);
+  border-radius: 9000px;
+  box-shadow: 2px 2px 6px 2px rgb(0 0 0 / 0.2);
+  display: flex;
+  height: auto;
+  justify-content: center;
+  object-fit: cover;
+  width: 70%;
+}
+
+.todo-title {
+  align-self: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  margin-left: 1em;
+  margin-right: 0px;
+}

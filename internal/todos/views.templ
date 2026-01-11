@@ -1,0 +1,40 @@
+
+package todos
+
+import "github.com/VedantPatil1/simple-todo-api-app.git/internal/ui/layouts"
+import "strconv"
+
+templ IndexView(items []Todo) {
+	@layouts.BaseLayout("Todos Page") {
+		<div class="container">
+			@TodoList(items)
+		</div>
+	}
+}
+
+templ TodoList(todos []Todo) {
+	<div data-testid="TodoList" class="todo-items">
+		for _, todo:= range todos {
+			@TodoItem(todo)
+		}
+	</div>
+}
+
+templ TodoItem(todo Todo) {
+	{{ idStr := strconv.Itoa(todo.Id) }}
+	<div id={ "todo-" + idStr } data-testid="TodoItem" data-todo-id={ idStr } class="todo-container">
+		<div class="todo-title">{ todo.Title }</div>
+		<input
+			type="checkbox"
+			class="todo-checkbox"
+			hx-patch={ "/todos/" + idStr + "/toggle" }
+			hx-trigger="change"
+			hx-target={ "#todo-" + idStr }
+            hx-swap="outerHTML"
+
+            if todo.IsCompleted {
+                checked="checked"
+            }
+		/>
+	</div>
+}
